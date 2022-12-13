@@ -1,5 +1,6 @@
 package commands;
 
+import fileio.ActionInputData;
 import fileio.UserInputData;
 
 public class CommandAction {
@@ -8,11 +9,25 @@ public class CommandAction {
     String actionType;
 
     UserInputData currentUser;
+    ActionInputData currectCommand;
 
-    public CommandAction(UserInputData currentUser, String actionType, String commandType) {
+    public CommandAction(UserInputData currentUser, ActionInputData currectCommand, String actionType, String commandType) {
         this.commandType = commandType;
         this.currentUser = currentUser;
         this.actionType = actionType;
+        this.currectCommand = currectCommand;
+    }
+
+    public CommandAction() {
+
+    }
+
+    public ActionInputData getCurrectCommand() {
+        return currectCommand;
+    }
+
+    public void setCurrectCommand(ActionInputData currectCommand) {
+        this.currectCommand = currectCommand;
     }
 
     public String getCommandType() {
@@ -40,13 +55,15 @@ public class CommandAction {
     }
 
     public void doCommand() {
-        if(actionType.equals("favorite")) {
-
+        if(commandType.equals("favorite")) {
+            Favorite favorite = new Favorite(currentUser, currectCommand, actionType, commandType);
+            favorite.doFavorite();
         }
-        else if(actionType.equals("view")) {
-
+        else if(commandType.equals("view")) {
+            View view = new View(currentUser, currectCommand, actionType, commandType);
+            view.doView();
         }
-        else if(actionType.equals("rating")) {
+        else if(commandType.equals("rating")) {
 
         }
     }
