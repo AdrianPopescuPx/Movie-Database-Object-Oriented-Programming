@@ -2,10 +2,9 @@ package main;
 
 import checker.Checkstyle;
 import checker.Checker;
+import commands.CommandAction;
 import common.Constants;
-import fileio.Input;
-import fileio.InputLoader;
-import fileio.Writer;
+import fileio.*;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -67,11 +66,36 @@ public final class Main {
         InputLoader inputLoader = new InputLoader(filePath1);
         Input input = inputLoader.readData();
 
+        for(int i = 0; i < input.getCommands().size(); ++i) {
+            String actionType = input.getCommands().get(i).getActionType();
+            String commandType = input.getCommands().get(i).getType();
+            if(actionType.equals("command")) {
+                UserInputData currentUser = input.getUsers().get(0);
+                CommandAction command = new CommandAction(currentUser, actionType, commandType);
+                System.out.println(command.getCurrentUser());
+            }
+//            else if(actionType.equals("query")) {
+//
+//            }
+//            if(actionType.equals("command") && commandType.equals("favorite")) {
+//                for(int j = 0; j < input.getUsers().size(); ++j) {
+//                    if (input.getUsers().get(j).getUsername().equals(input.getCommands().get(i).getUsername()) && input.getUsers().get(j).getUsername().equals("tautPolenta7")) {
+//                        if (input.getUsers().get(j).getHistory().containsKey("Sherlock: The Final Problem")) { //&& input.getUsers().get(j).getFavoriteMovies().contains("Sherlock: The Final Problem")) {
+//                            input.getUsers().get(j).getFavoriteMovies().add(input.getCommands().get(i).getTitle());
+//                            System.out.println(input.getUsers().get(j).getFavoriteMovies());
+//                        }
+//                        else System.out.println("ERROR, SHERLOCK IS ALREADY FAVORITE");
+//                    }
+//                }
+//            }
+        }
+
+
         Writer fileWriter = new Writer(filePath2);
         JSONArray arrayResult = new JSONArray();
 
-        //TODO add here the entry point to your implementation
-
         fileWriter.closeJSON(arrayResult);
+
+
     }
 }

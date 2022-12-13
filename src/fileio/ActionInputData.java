@@ -9,7 +9,7 @@ import java.util.List;
  * <p>
  * DO NOT MODIFY
  */
-public final class ActionInputData {
+public final class  ActionInputData {
     /**
      * Action id
      */
