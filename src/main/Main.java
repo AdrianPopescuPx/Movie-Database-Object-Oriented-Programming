@@ -2,9 +2,11 @@ package main;
 
 import checker.Checkstyle;
 import checker.Checker;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import commands.CommandAction;
 import common.Constants;
 import fileio.*;
+import org.json.JSONObject;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -12,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -66,7 +69,10 @@ public final class Main {
         InputLoader inputLoader = new InputLoader(filePath1);
         Input input = inputLoader.readData();
 
+        Writer fileWriter = new Writer(filePath2);
+        JSONArray arrayResult = new JSONArray();
         for(int i = 0; i < input.getCommands().size(); ++i) {
+            int numberOfCommand = i + 1;
             String actionType = input.getCommands().get(i).getActionType();
             String commandType = input.getCommands().get(i).getType();
             if(actionType.equals("command")) {
@@ -78,17 +84,11 @@ public final class Main {
                         break;
                     }
                 }
-                CommandAction command = new CommandAction(currentUser, currectCommand, actionType, commandType);
+                List<ActionInputData> allComands = input.getCommands();
+                CommandAction command = new CommandAction(currentUser, currectCommand, actionType, commandType, numberOfCommand, arrayResult, allComands);
                 command.doCommand();
-                System.out.println(command.getCurrentUser());
             }
         }
-
-
-        Writer fileWriter = new Writer(filePath2);
-        JSONArray arrayResult = new JSONArray();
         fileWriter.closeJSON(arrayResult);
-
-
     }
 }

@@ -2,20 +2,31 @@ package commands;
 
 import fileio.ActionInputData;
 import fileio.UserInputData;
+import org.json.simple.JSONArray;
+
+import java.util.List;
 
 public class CommandAction {
 
+    int numberOfCommand;
     String commandType;
     String actionType;
 
     UserInputData currentUser;
-    ActionInputData currectCommand;
+    ActionInputData currentCommand;
+    List<ActionInputData> allComands;
 
-    public CommandAction(UserInputData currentUser, ActionInputData currectCommand, String actionType, String commandType) {
+    JSONArray arrayResult = new JSONArray();
+
+
+    public CommandAction(UserInputData currentUser, ActionInputData currentCommand, String actionType, String commandType, int numberOfCommand, JSONArray arrayResult, List<ActionInputData> allComands) {
         this.commandType = commandType;
         this.currentUser = currentUser;
         this.actionType = actionType;
-        this.currectCommand = currectCommand;
+        this.currentCommand = currentCommand;
+        this.numberOfCommand = numberOfCommand;
+        this.arrayResult = arrayResult;
+        this.allComands = allComands;
     }
 
     public CommandAction() {
@@ -23,11 +34,11 @@ public class CommandAction {
     }
 
     public ActionInputData getCurrectCommand() {
-        return currectCommand;
+        return currentCommand;
     }
 
     public void setCurrectCommand(ActionInputData currectCommand) {
-        this.currectCommand = currectCommand;
+        this.currentCommand = currectCommand;
     }
 
     public String getCommandType() {
@@ -54,17 +65,34 @@ public class CommandAction {
         this.currentUser = currentUser;
     }
 
+    public int getNumberOfCommand() {
+        return numberOfCommand;
+    }
+
+    public void setNumberOfCommand(int numberOfCommand) {
+        this.numberOfCommand = numberOfCommand;
+    }
+
+    public JSONArray getArrayResult() {
+        return arrayResult;
+    }
+
+    public void setArrayResult(JSONArray arrayResult) {
+        this.arrayResult = arrayResult;
+    }
+
     public void doCommand() {
         if(commandType.equals("favorite")) {
-            Favorite favorite = new Favorite(currentUser, currectCommand, actionType, commandType);
+            Favorite favorite = new Favorite(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands);
             favorite.doFavorite();
         }
         else if(commandType.equals("view")) {
-            View view = new View(currentUser, currectCommand, actionType, commandType);
+            View view = new View(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands);
             view.doView();
         }
         else if(commandType.equals("rating")) {
-
+            Rating rating = new Rating(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands);
+            rating.doRating();
         }
     }
 
