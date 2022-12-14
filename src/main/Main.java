@@ -5,6 +5,7 @@ import checker.Checker;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commands.CommandAction;
 import common.Constants;
+import entertainment.Season;
 import fileio.*;
 import org.json.JSONObject;
 import org.json.simple.JSONArray;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -85,7 +87,8 @@ public final class Main {
                     }
                 }
                 List<ActionInputData> allComands = input.getCommands();
-                CommandAction command = new CommandAction(currentUser, currectCommand, actionType, commandType, numberOfCommand, arrayResult, allComands);
+                List<SerialInputData> allSeasons = input.getSerials();
+                CommandAction command = new CommandAction(currentUser, currectCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSeasons);
                 command.doCommand();
             }
         }

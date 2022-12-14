@@ -1,6 +1,7 @@
 package commands;
 
 import fileio.ActionInputData;
+import fileio.SerialInputData;
 import fileio.UserInputData;
 import org.json.JSONObject;
 import org.json.simple.JSONArray;
@@ -10,8 +11,8 @@ import java.util.List;
 public class Favorite extends CommandAction {
 
 
-    public Favorite(UserInputData currentUser, ActionInputData currentCommand, String actionType, String commandType, int numberOfCommand, JSONArray arrayResult, List<ActionInputData> allComands) {
-        super(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands);
+    public Favorite(UserInputData currentUser, ActionInputData currentCommand, String actionType, String commandType, int numberOfCommand, JSONArray arrayResult, List<ActionInputData> allComands, List<SerialInputData> allSeasons) {
+        super(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSeasons);
     }
 
     public void doFavorite() {

@@ -1,6 +1,7 @@
 package commands;
 
 import fileio.ActionInputData;
+import fileio.SerialInputData;
 import fileio.UserInputData;
 import org.json.JSONObject;
 import org.json.simple.JSONArray;
@@ -9,8 +10,8 @@ import java.util.List;
 
 public class View extends CommandAction{
 
-    public View(UserInputData currentUser, ActionInputData currectCommand, String actionType, String commandType, int numberOfCommand, JSONArray arrayResult, List<ActionInputData> allComands) {
-        super(currentUser, currectCommand, actionType, commandType, numberOfCommand, arrayResult, allComands);
+    public View(UserInputData currentUser, ActionInputData currectCommand, String actionType, String commandType, int numberOfCommand, JSONArray arrayResult, List<ActionInputData> allComands, List<SerialInputData> allSeasons) {
+        super(currentUser, currectCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSeasons);
     }
 
     public void doView() {

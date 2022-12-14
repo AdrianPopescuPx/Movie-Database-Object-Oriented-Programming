@@ -1,6 +1,7 @@
 package commands;
 
 import fileio.ActionInputData;
+import fileio.SerialInputData;
 import fileio.UserInputData;
 import org.json.simple.JSONArray;
 
@@ -17,9 +18,10 @@ public class CommandAction {
     List<ActionInputData> allComands;
 
     JSONArray arrayResult = new JSONArray();
+    List<SerialInputData> allSeasons;
 
 
-    public CommandAction(UserInputData currentUser, ActionInputData currentCommand, String actionType, String commandType, int numberOfCommand, JSONArray arrayResult, List<ActionInputData> allComands) {
+    public CommandAction(UserInputData currentUser, ActionInputData currentCommand, String actionType, String commandType, int numberOfCommand, JSONArray arrayResult, List<ActionInputData> allComands, List<SerialInputData> allSeasons) {
         this.commandType = commandType;
         this.currentUser = currentUser;
         this.actionType = actionType;
@@ -27,6 +29,7 @@ public class CommandAction {
         this.numberOfCommand = numberOfCommand;
         this.arrayResult = arrayResult;
         this.allComands = allComands;
+        this.allSeasons = allSeasons;
     }
 
     public CommandAction() {
@@ -83,15 +86,15 @@ public class CommandAction {
 
     public void doCommand() {
         if(commandType.equals("favorite")) {
-            Favorite favorite = new Favorite(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands);
+            Favorite favorite = new Favorite(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSeasons);
             favorite.doFavorite();
         }
         else if(commandType.equals("view")) {
-            View view = new View(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands);
+            View view = new View(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSeasons);
             view.doView();
         }
         else if(commandType.equals("rating")) {
-            Rating rating = new Rating(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands);
+            Rating rating = new Rating(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSeasons);
             rating.doRating();
         }
     }
