@@ -1,6 +1,7 @@
 package commands;
 
 import fileio.ActionInputData;
+import fileio.MovieInputData;
 import fileio.SerialInputData;
 import fileio.UserInputData;
 import org.json.simple.JSONArray;
@@ -9,19 +10,20 @@ import java.util.List;
 
 public class CommandAction {
 
-    int numberOfCommand;
-    String commandType;
-    String actionType;
+    private int numberOfCommand;
+    private String commandType;
+    private String actionType;
 
-    UserInputData currentUser;
-    ActionInputData currentCommand;
+    private UserInputData currentUser;
+    private ActionInputData currentCommand;
     List<ActionInputData> allComands;
+    List<MovieInputData> allMovies;
 
     JSONArray arrayResult = new JSONArray();
-    List<SerialInputData> allSeasons;
+    List<SerialInputData> allSerials;
 
 
-    public CommandAction(UserInputData currentUser, ActionInputData currentCommand, String actionType, String commandType, int numberOfCommand, JSONArray arrayResult, List<ActionInputData> allComands, List<SerialInputData> allSeasons) {
+    public CommandAction(UserInputData currentUser, ActionInputData currentCommand, String actionType, String commandType, int numberOfCommand, JSONArray arrayResult, List<ActionInputData> allComands, List<SerialInputData> allSerials, List<MovieInputData> allMovies) {
         this.commandType = commandType;
         this.currentUser = currentUser;
         this.actionType = actionType;
@@ -29,7 +31,8 @@ public class CommandAction {
         this.numberOfCommand = numberOfCommand;
         this.arrayResult = arrayResult;
         this.allComands = allComands;
-        this.allSeasons = allSeasons;
+        this.allSerials = allSerials;
+        this.allMovies = allMovies;
     }
 
     public CommandAction() {
@@ -75,7 +78,6 @@ public class CommandAction {
     public void setNumberOfCommand(int numberOfCommand) {
         this.numberOfCommand = numberOfCommand;
     }
-
     public JSONArray getArrayResult() {
         return arrayResult;
     }
@@ -86,15 +88,15 @@ public class CommandAction {
 
     public void doCommand() {
         if(commandType.equals("favorite")) {
-            Favorite favorite = new Favorite(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSeasons);
+            Favorite favorite = new Favorite(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSerials, allMovies);
             favorite.doFavorite();
         }
         else if(commandType.equals("view")) {
-            View view = new View(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSeasons);
+            View view = new View(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSerials, allMovies);
             view.doView();
         }
         else if(commandType.equals("rating")) {
-            Rating rating = new Rating(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSeasons);
+            Rating rating = new Rating(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSerials, allMovies);
             rating.doRating();
         }
     }

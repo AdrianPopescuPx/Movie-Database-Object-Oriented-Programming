@@ -1,6 +1,7 @@
 package commands;
 
 import fileio.ActionInputData;
+import fileio.MovieInputData;
 import fileio.SerialInputData;
 import fileio.UserInputData;
 import org.json.JSONObject;
@@ -10,69 +11,82 @@ import java.util.List;
 
 public class Rating extends CommandAction{
 
-    public Rating(UserInputData currentUser, ActionInputData currentCommand, String actionType, String commandType, int numberOfCommand, JSONArray arrayResult, List<ActionInputData> allComands, List<SerialInputData> allSeasons) {
-        super(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSeasons);
+    public Rating(UserInputData currentUser, ActionInputData currentCommand, String actionType, String commandType, int numberOfCommand, JSONArray arrayResult, List<ActionInputData> allComands, List<SerialInputData> allSerials, List<MovieInputData> allMovies) {
+        super(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSerials, allMovies);
     }
 
     public void doRating() {
-        int checkSeason = 0;
-        for(int i = 0; i < allSeasons.size(); ++i) {
-            if(currentCommand.getTitle().equals(allSeasons.get(i).getTitle())) {
-                checkSeason = allSeasons.get(i).getNumberSeason();
+        boolean checkSerial = false;
+        SerialInputData currentSerial = null;
+        for(int i = 0; i < allSerials.size(); ++i) {
+            if(getCurrectCommand().getTitle().equals(allSerials.get(i).getTitle())) {
+                checkSerial = true;
+                 currentSerial = allSerials.get(i);
+                break;
             }
         }
-        if(currentUser.getHistory().containsKey(currentCommand.getTitle())) {
-            if (checkSeason == 0) {
+        if(getCurrentUser().getHistory().containsKey(getCurrectCommand().getTitle())) {
+            if (!checkSerial) {
                 boolean checkRating = false;
-                for (int i = 1; i < numberOfCommand - 1; ++i) {
+                for (int i = 1; i < getNumberOfCommand() - 1; ++i) {
                     String title = allComands.get(i).getTitle();
                     String username = allComands.get(i).getUsername();
-                    if (currentCommand.getTitle().equals(title) && currentCommand.getUsername().equals(username)) {
-                        if (title.equals(currentCommand.getTitle()) && allComands.get(i).getType().equals(currentCommand.getType())) {
+                    if (getCurrectCommand().getTitle().equals(title) && getCurrectCommand().getUsername().equals(username)) {
+                        if (title.equals(getCurrectCommand().getTitle()) && allComands.get(i).getType().equals(getCurrectCommand().getType())) {
                             JSONObject jsonObject = new JSONObject();
-                            jsonObject.put("id", numberOfCommand);
-                            jsonObject.put("message", "error -> " + currentCommand.getTitle() + " has been already rated");
+                            jsonObject.put("id", getNumberOfCommand());
+                            jsonObject.put("message", "error -> " + getCurrectCommand().getTitle() + " has been already rated");
                             arrayResult.add(jsonObject);
                             checkRating = true;
                             break;
                         }
                     }
                 }
-                if (!checkRating) {
-                    String str = String.format("%.1f", currentCommand.getGrade());
+                if (!checkRating)
+                {
+                    for(int q = 0; q < allMovies.size(); ++q) {
+                        if(allMovies.get(q).getTitle().equals(getCurrectCommand().getTitle())) {
+                            allMovies.get(q).setRatings((int) getCurrectCommand().getGrade());
+                        }
+                    }
+                    String str = String.format("%.1f", getCurrectCommand().getGrade());
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id", numberOfCommand);
-                    jsonObject.put("message", "success -> " + currentCommand.getTitle() + " was rated with " + str + " by " + currentCommand.getUsername());
+                    jsonObject.put("id", getNumberOfCommand());
+                    jsonObject.put("message", "success -> " + getCurrectCommand().getTitle() + " was rated with " + str + " by " + getCurrectCommand().getUsername());
                     arrayResult.add(jsonObject);
+
                 }
             } else {
-                for (int i = 1; i < numberOfCommand - 1; ++i) {
+                boolean checkSeason = false;
+                for (int i = 1; i < getNumberOfCommand() - 1; ++i) {
                     String title = allComands.get(i).getTitle();
                     String username = allComands.get(i).getUsername();
-                    if (currentCommand.getTitle().equals(title) && currentCommand.getUsername().equals(username)) {
-                        if (title.equals(currentCommand.getTitle()) && allComands.get(i).getType().equals(currentCommand.getType())) {
-                            checkSeason--;
+                    if (getCurrectCommand().getTitle().equals(title) && getCurrectCommand().getUsername().equals(username)) {
+                        if (title.equals(getCurrectCommand().getTitle()) && allComands.get(i).getType().equals(getCurrectCommand().getType()) && getCurrectCommand().getSeasonNumber() == allComands.get(i).getSeasonNumber()) {
+                            checkSeason = true;
                         }
                     }
                 }
-                if (checkSeason >= 1) {
-                    String str = String.format("%.1f", currentCommand.getGrade());
+                if (!checkSeason) {
+                    currentSerial.setSeasonsRating(getCurrectCommand().getSeasonNumber(), getCurrectCommand().getSeasonNumber() + (int) getCurrectCommand().getGrade());
+                    currentSerial.setSeasonsRating(getCurrectCommand().getSeasonNumber(), getCurrectCommand().getSeasonNumber() + (int) getCurrectCommand().getGrade());
+                    String str = String.format("%.1f", getCurrectCommand().getGrade());
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id", numberOfCommand);
-                    jsonObject.put("message", "success -> " + currentCommand.getTitle() + " was rated with " + str + " by " + currentCommand.getUsername());
+                    jsonObject.put("id", getNumberOfCommand());
+                    jsonObject.put("message", "success -> " + getCurrectCommand().getTitle() + " was rated with " + str + " by " + getCurrectCommand().getUsername());
                     arrayResult.add(jsonObject);
                 } else {
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id", numberOfCommand);
-                    jsonObject.put("message", "error -> " + currentCommand.getTitle() + " has been already rated");
+                    jsonObject.put("id", getNumberOfCommand());
+                    jsonObject.put("message", "error -> " + getCurrectCommand().getTitle() + " has been already rated");
                     arrayResult.add(jsonObject);
                 }
             }
         }
         else {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", numberOfCommand);
-            jsonObject.put("message", "error -> " + currentCommand.getTitle() + " is not seen");
+            jsonObject.put("id", getNumberOfCommand());
+            jsonObject.put("message", "error -> " + getCurrectCommand().getTitle() + " is not seen");
             arrayResult.add(jsonObject);
         }
     }

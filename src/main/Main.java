@@ -87,9 +87,13 @@ public final class Main {
                     }
                 }
                 List<ActionInputData> allComands = input.getCommands();
-                List<SerialInputData> allSeasons = input.getSerials();
-                CommandAction command = new CommandAction(currentUser, currectCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSeasons);
+                List<SerialInputData> allSerials = input.getSerials();
+                List<MovieInputData> allMovies = input.getMovies();
+                CommandAction command = new CommandAction(currentUser, currectCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSerials, allMovies);
                 command.doCommand();
+            }
+            else if(actionType.equals("query")){
+
             }
         }
         fileWriter.closeJSON(arrayResult);

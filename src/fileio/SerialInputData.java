@@ -3,6 +3,8 @@ package fileio;
 import entertainment.Season;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Information about a tv show, retrieved from parsing the input test files
@@ -19,6 +21,7 @@ public final class SerialInputData extends ShowInput {
      */
     private final ArrayList<Season> seasons;
 
+    private final Map<Integer, Integer> seasonsRating = new HashMap<>();
     public SerialInputData(final String title, final ArrayList<String> cast,
                            final ArrayList<String> genres,
                            final int numberOfSeasons, final ArrayList<Season> seasons,
@@ -32,6 +35,19 @@ public final class SerialInputData extends ShowInput {
         return numberOfSeasons;
     }
 
+    public void setSeasonsRating(int key, int value) {
+        seasonsRating.put(key, value);
+    }
+
+    public double getSeasonsRating() {
+        double sum = 0;
+        double contor = 0;
+        for(int i = 0; i < seasonsRating.size(); ++i) {
+            sum += seasonsRating.get(i);
+            contor++;
+        }
+        return sum / contor;
+    }
     public ArrayList<Season> getSeasons() {
         return seasons;
     }
