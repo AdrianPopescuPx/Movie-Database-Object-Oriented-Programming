@@ -68,8 +68,7 @@ public class Rating extends CommandAction{
                     }
                 }
                 if (!checkSeason) {
-                    currentSerial.setSeasonsRating(getCurrectCommand().getSeasonNumber(), getCurrectCommand().getSeasonNumber() + (int) getCurrectCommand().getGrade());
-                    currentSerial.setSeasonsRating(getCurrectCommand().getSeasonNumber(), getCurrectCommand().getSeasonNumber() + (int) getCurrectCommand().getGrade());
+                    currentSerial.addSeasonsRating((int) getCurrectCommand().getGrade());
                     String str = String.format("%.1f", getCurrectCommand().getGrade());
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("id", getNumberOfCommand());

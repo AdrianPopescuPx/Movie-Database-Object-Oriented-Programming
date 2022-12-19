@@ -20,8 +20,9 @@ public final class SerialInputData extends ShowInput {
      * Season list
      */
     private final ArrayList<Season> seasons;
+    private int numberOfRatings = 0;
 
-    private final Map<Integer, Integer> seasonsRating = new HashMap<>();
+    private int seasonsRating = 0;
     public SerialInputData(final String title, final ArrayList<String> cast,
                            final ArrayList<String> genres,
                            final int numberOfSeasons, final ArrayList<Season> seasons,
@@ -35,18 +36,13 @@ public final class SerialInputData extends ShowInput {
         return numberOfSeasons;
     }
 
-    public void setSeasonsRating(int key, int value) {
-        seasonsRating.put(key, value);
+    public void addSeasonsRating(Integer value) {
+        seasonsRating += value;
+        numberOfRatings++;
     }
 
     public double getSeasonsRating() {
-        double sum = 0;
-        double contor = 0;
-        for(int i = 0; i < seasonsRating.size(); ++i) {
-            sum += seasonsRating.get(i);
-            contor++;
-        }
-        return sum / contor;
+        return (double) seasonsRating / numberOfRatings;
     }
     public ArrayList<Season> getSeasons() {
         return seasons;

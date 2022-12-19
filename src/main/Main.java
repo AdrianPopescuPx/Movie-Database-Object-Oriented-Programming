@@ -1,13 +1,11 @@
 package main;
 
+import Queries.actors.Actors;
 import checker.Checkstyle;
 import checker.Checker;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import commands.CommandAction;
 import common.Constants;
-import entertainment.Season;
 import fileio.*;
-import org.json.JSONObject;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -15,7 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -93,8 +90,15 @@ public final class Main {
                 command.doCommand();
             }
             else if(actionType.equals("query")){
-
-            }
+                if(input.getCommands().get(i).getCriteria().equals("average")) {
+                    ActionInputData currentCommand = input.getCommands().get(i);
+                    List<SerialInputData> allSerials = input.getSerials();
+                    List<MovieInputData> allMovies = input.getMovies();
+                    List<ActorInputData> allActors = input.getActors();
+                    Actors actors = new Actors(currentCommand, allSerials, allMovies, allActors, numberOfCommand, arrayResult);
+                    actors.doQuery();
+                    }
+                }
         }
         fileWriter.closeJSON(arrayResult);
     }
