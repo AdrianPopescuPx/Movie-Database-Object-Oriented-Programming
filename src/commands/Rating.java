@@ -21,7 +21,7 @@ public class Rating extends CommandAction{
         for(int i = 0; i < allSerials.size(); ++i) {
             if(getCurrectCommand().getTitle().equals(allSerials.get(i).getTitle())) {
                 checkSerial = true;
-                 currentSerial = allSerials.get(i);
+                currentSerial = allSerials.get(i);
                 break;
             }
         }
@@ -46,7 +46,7 @@ public class Rating extends CommandAction{
                 {
                     for(int q = 0; q < allMovies.size(); ++q) {
                         if(allMovies.get(q).getTitle().equals(getCurrectCommand().getTitle())) {
-                            allMovies.get(q).setRatings((int) getCurrectCommand().getGrade());
+                            allMovies.get(q).setRatings(getCurrectCommand().getGrade());
                         }
                     }
                     String str = String.format("%.1f", getCurrectCommand().getGrade());
@@ -68,7 +68,7 @@ public class Rating extends CommandAction{
                     }
                 }
                 if (!checkSeason) {
-                    currentSerial.addSeasonsRating((int) getCurrectCommand().getGrade());
+                    currentSerial.getSeasons().get(getCurrectCommand().getSeasonNumber() - 1).addRating(getCurrectCommand().getGrade());
                     String str = String.format("%.1f", getCurrectCommand().getGrade());
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("id", getNumberOfCommand());

@@ -12,7 +12,8 @@ public final class MovieInputData extends ShowInput {
      * Duration in minutes of a season
      */
     private final int duration;
-    private final ArrayList<Integer> ratings = new ArrayList<>();
+
+    private final ArrayList<Double> ratings = new ArrayList<Double>();
     public MovieInputData(final String title, final ArrayList<String> cast,
                           final ArrayList<String> genres, final int year,
                           final int duration) {
@@ -24,13 +25,16 @@ public final class MovieInputData extends ShowInput {
         return duration;
     }
 
-    public void setRatings(int number) {
+    public void setRatings(double number) {
         ratings.add(number);
     }
 
     public double getRatings(){
         double sum = 0;
         double contor = 0;
+        if(ratings.isEmpty()) {
+            return 0;
+        }
         for(int i = 0; i < ratings.size(); ++i) {
             sum += ratings.get(i);
             contor ++;

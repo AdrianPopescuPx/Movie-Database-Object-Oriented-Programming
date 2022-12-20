@@ -4,6 +4,7 @@ import Queries.actors.Actors;
 import checker.Checkstyle;
 import checker.Checker;
 import commands.CommandAction;
+import commands.User;
 import common.Constants;
 import fileio.*;
 import org.json.simple.JSONArray;
@@ -71,6 +72,7 @@ public final class Main {
         Writer fileWriter = new Writer(filePath2);
         JSONArray arrayResult = new JSONArray();
         for(int i = 0; i < input.getCommands().size(); ++i) {
+
             int numberOfCommand = i + 1;
             String actionType = input.getCommands().get(i).getActionType();
             String commandType = input.getCommands().get(i).getType();
@@ -90,14 +92,12 @@ public final class Main {
                 command.doCommand();
             }
             else if(actionType.equals("query")){
-                if(input.getCommands().get(i).getCriteria().equals("average")) {
                     ActionInputData currentCommand = input.getCommands().get(i);
                     List<SerialInputData> allSerials = input.getSerials();
                     List<MovieInputData> allMovies = input.getMovies();
                     List<ActorInputData> allActors = input.getActors();
                     Actors actors = new Actors(currentCommand, allSerials, allMovies, allActors, numberOfCommand, arrayResult);
                     actors.doQuery();
-                    }
                 }
         }
         fileWriter.closeJSON(arrayResult);
