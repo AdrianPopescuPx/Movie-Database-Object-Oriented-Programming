@@ -12,6 +12,7 @@ public final class MovieInputData extends ShowInput {
      * Duration in minutes of a season
      */
     private final int duration;
+    int views = 0;
 
     int favoriteApparitions = 0;
 
@@ -25,6 +26,14 @@ public final class MovieInputData extends ShowInput {
 
     public int getDuration() {
         return duration;
+    }
+
+    public void addViews(int number) {
+        views += number;
+    }
+
+    public int getViews() {
+        return views;
     }
 
     public void setRatings(double number) {

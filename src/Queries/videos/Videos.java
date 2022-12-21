@@ -41,7 +41,8 @@ public class Videos {
             videoLongest.doVideoLongest();
         }
         else if(currentCommand.getCriteria().equals("most_viewed")) {
-
+            VideoMostViewed videoMostViewed = new VideoMostViewed(currentCommand, numberOfCommand, allSerials, allMovies, allUsers, arrayResult);
+            videoMostViewed.doVideoMostViewed();
         }
     }
 }

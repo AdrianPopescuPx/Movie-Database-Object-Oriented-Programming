@@ -23,6 +23,8 @@ public final class SerialInputData extends ShowInput {
 
     int favoriteApparitions = 0;
 
+    int views = 0;
+
     public SerialInputData(final String title, final ArrayList<String> cast,
                            final ArrayList<String> genres,
                            final int numberOfSeasons, final ArrayList<Season> seasons,
@@ -65,6 +67,15 @@ public final class SerialInputData extends ShowInput {
         }
             return suma / contor;
     }
+
+    public void addViews(int number) {
+        views += number;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
     public ArrayList<Season> getSeasons() {
         return seasons;
     }
