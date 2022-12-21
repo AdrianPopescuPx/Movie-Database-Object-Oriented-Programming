@@ -43,6 +43,16 @@ public final class SerialInputData extends ShowInput {
         return favoriteApparitions;
     }
 
+    public int getSerialDuration() {
+       int suma = 0;
+        if(seasons.isEmpty()) {
+            return 0;
+        }
+        for(int i = 0; i < seasons.size(); ++i) {
+            suma += seasons.get(i).getDuration();
+        }
+        return suma;
+    }
     public double getSeasonsRating() {
         int contor = 0;
         double suma = 0;

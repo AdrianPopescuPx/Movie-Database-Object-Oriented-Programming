@@ -37,7 +37,8 @@ public class Videos {
             videoFavorite.doVideoFavorite();
         }
         else if(currentCommand.getCriteria().equals("longest")) {
-
+            VideoLongest videoLongest = new VideoLongest(currentCommand, numberOfCommand, allSerials, allMovies, allUsers, arrayResult);
+            videoLongest.doVideoLongest();
         }
         else if(currentCommand.getCriteria().equals("most_viewed")) {
 
