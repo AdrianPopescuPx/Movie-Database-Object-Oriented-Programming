@@ -73,6 +73,14 @@ public final class ActorInputData {
         return careerDescription;
     }
 
+    public double calculateAwards() {
+        double suma = 0;
+        for(Map.Entry<ActorsAwards, Integer> currentAward: awards.entrySet()) {
+            suma += currentAward.getValue();
+        }
+        return suma;
+    }
+
     public void setCareerDescription(final String careerDescription) {
         this.careerDescription = careerDescription;
     }

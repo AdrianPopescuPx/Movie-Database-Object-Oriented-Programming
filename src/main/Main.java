@@ -17,6 +17,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
+import static actor.ActorsAwards.BEST_SCREENPLAY;
+
 /**
  * The entry point to this homework. It runs the checker that tests your implentation.
  */

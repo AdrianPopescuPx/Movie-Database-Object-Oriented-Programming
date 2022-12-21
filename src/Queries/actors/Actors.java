@@ -8,6 +8,8 @@ import org.json.simple.JSONArray;
 
 import java.util.List;
 
+import static actor.ActorsAwards.BEST_SCREENPLAY;
+
 public class Actors {
     ActionInputData currentCommand;
     List<SerialInputData> allSerials;
@@ -31,7 +33,8 @@ public class Actors {
             average.doAverage();
         }
         else if(currentCommand.getCriteria().equals("awards")) {
-
+            Awards awards = new Awards(currentCommand, allSerials, allMovies, allActors, numberOfCommand, arrayResult);
+            awards.doAwards();
         }
         else if(currentCommand.getCriteria().equals("filter_description")) {
 
