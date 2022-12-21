@@ -37,7 +37,8 @@ public class Actors {
             awards.doAwards();
         }
         else if(currentCommand.getCriteria().equals("filter_description")) {
-
+            FilterDescription filterDescription = new FilterDescription(currentCommand, allSerials, allMovies, allActors, numberOfCommand, arrayResult);
+            filterDescription.doFilterDescription();
         }
     }
 }
