@@ -47,42 +47,44 @@ public class VideoFavorite extends Videos{
                 if(result.size() == currentCommand.getNumber()) {
                     break;
                 }
-                String checkYear = currentCommand.getFilters().get(0).get(0);
-                String checkGenre = currentCommand.getFilters().get(1).get(0);
-                if(checkYear == null && checkGenre == null) {
-                    result.add(currentMovie.getTitle());
-                }
-                else if(checkYear == null && checkGenre != null){
-                    boolean genreOk = false;
-                    if(currentMovie.getGenres().contains(checkGenre)) {
-                        genreOk = true;
-                    }
-                    if(genreOk) {
+                if(currentMovie.getFavoriteApparitions() > 0) {
+                    String checkYear = currentCommand.getFilters().get(0).get(0);
+                    String checkGenre = currentCommand.getFilters().get(1).get(0);
+                    if(checkYear == null && checkGenre == null) {
                         result.add(currentMovie.getTitle());
                     }
-                }
-                else if(checkYear != null && checkGenre == null) {
-                    boolean yearOk = false;
-                    String movieYear = String.valueOf(currentMovie.getYear());
-                    if(movieYear.equals(checkYear)) {
-                        yearOk = true;
+                    else if(checkYear == null && checkGenre != null){
+                        boolean genreOk = false;
+                        if(currentMovie.getGenres().contains(checkGenre)) {
+                            genreOk = true;
+                        }
+                        if(genreOk) {
+                            result.add(currentMovie.getTitle());
+                        }
                     }
-                    if(yearOk) {
-                        result.add(currentMovie.getTitle());
+                    else if(checkYear != null && checkGenre == null) {
+                        boolean yearOk = false;
+                        String movieYear = String.valueOf(currentMovie.getYear());
+                        if(movieYear.equals(checkYear)) {
+                            yearOk = true;
+                        }
+                        if(yearOk) {
+                            result.add(currentMovie.getTitle());
+                        }
                     }
-                }
-                else {
-                    boolean yearOk = false;
-                    boolean genreOk = false;
-                    String movieYear = String.valueOf(currentMovie.getYear());
-                    if(movieYear.equals(checkYear)) {
-                        yearOk = true;
-                    }
-                    if(currentMovie.getGenres().contains(checkGenre)) {
-                        genreOk = true;
-                    }
-                    if(genreOk && yearOk) {
-                        result.add(currentMovie.getTitle());
+                    else {
+                        boolean yearOk = false;
+                        boolean genreOk = false;
+                        String movieYear = String.valueOf(currentMovie.getYear());
+                        if(movieYear.equals(checkYear)) {
+                            yearOk = true;
+                        }
+                        if(currentMovie.getGenres().contains(checkGenre)) {
+                            genreOk = true;
+                        }
+                        if(genreOk && yearOk) {
+                            result.add(currentMovie.getTitle());
+                        }
                     }
                 }
             }
@@ -117,7 +119,55 @@ public class VideoFavorite extends Videos{
                     }
                 }
             });
-
+            for(SerialInputData currentShow: allSerials) {
+                if(result.size() == currentCommand.getNumber()) {
+                    break;
+                }
+                if(currentShow.getFavoriteApparitions() > 0) {
+                    String checkYear = currentCommand.getFilters().get(0).get(0);
+                    String checkGenre = currentCommand.getFilters().get(1).get(0);
+                    if(checkYear == null && checkGenre == null) {
+                        result.add(currentShow.getTitle());
+                    }
+                    else if(checkYear == null && checkGenre != null){
+                        boolean genreOk = false;
+                        if(currentShow.getGenres().contains(checkGenre)) {
+                            genreOk = true;
+                        }
+                        if(genreOk) {
+                            result.add(currentShow.getTitle());
+                        }
+                    }
+                    else if(checkYear != null && checkGenre == null) {
+                        boolean yearOk = false;
+                        String movieYear = String.valueOf(currentShow.getYear());
+                        if(movieYear.equals(checkYear)) {
+                            yearOk = true;
+                        }
+                        if(yearOk) {
+                            result.add(currentShow.getTitle());
+                        }
+                    }
+                    else {
+                        boolean yearOk = false;
+                        boolean genreOk = false;
+                        String movieYear = String.valueOf(currentShow.getYear());
+                        if(movieYear.equals(checkYear)) {
+                            yearOk = true;
+                        }
+                        if(currentShow.getGenres().contains(checkGenre)) {
+                            genreOk = true;
+                        }
+                        if(genreOk && yearOk) {
+                            result.add(currentShow.getTitle());
+                        }
+                    }
+                }
+            }
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", numberOfCommand);
+            jsonObject.put("message", "Query result: " + result);
+            arrayResult.add(jsonObject);
         }
     }
 }
