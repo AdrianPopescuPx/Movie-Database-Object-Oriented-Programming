@@ -13,6 +13,8 @@ public final class MovieInputData extends ShowInput {
      */
     private final int duration;
 
+    int favoriteApparitions = 0;
+
     private final ArrayList<Double> ratings = new ArrayList<Double>();
     public MovieInputData(final String title, final ArrayList<String> cast,
                           final ArrayList<String> genres, final int year,
@@ -42,6 +44,13 @@ public final class MovieInputData extends ShowInput {
         return sum / contor;
     }
 
+    public void addFavoriteApparition(int number) {
+        favoriteApparitions += number;
+    }
+
+    public int getFavoriteApparitions() {
+        return favoriteApparitions;
+    }
     @Override
     public String toString() {
         return "MovieInputData{" + "title= "

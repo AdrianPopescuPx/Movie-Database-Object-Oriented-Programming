@@ -1,4 +1,4 @@
-package Queries;
+package Queries.users;
 
 public class Users {
 }

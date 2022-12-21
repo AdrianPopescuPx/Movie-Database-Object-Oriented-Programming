@@ -21,6 +21,8 @@ public final class SerialInputData extends ShowInput {
      */
     private final ArrayList<Season> seasons;
 
+    int favoriteApparitions = 0;
+
     public SerialInputData(final String title, final ArrayList<String> cast,
                            final ArrayList<String> genres,
                            final int numberOfSeasons, final ArrayList<Season> seasons,
@@ -34,6 +36,12 @@ public final class SerialInputData extends ShowInput {
         return numberOfSeasons;
     }
 
+    public void addFavoriteApparition(int number) {
+        favoriteApparitions += number;
+    }
+    public int getFavoriteApparitions() {
+        return favoriteApparitions;
+    }
 
     public double getSeasonsRating() {
         int contor = 0;

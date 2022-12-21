@@ -1,6 +1,7 @@
 package main;
 
 import Queries.actors.Actors;
+import Queries.videos.Videos;
 import checker.Checkstyle;
 import checker.Checker;
 import commands.CommandAction;
@@ -98,8 +99,15 @@ public final class Main {
                     List<SerialInputData> allSerials = input.getSerials();
                     List<MovieInputData> allMovies = input.getMovies();
                     List<ActorInputData> allActors = input.getActors();
-                    Actors actors = new Actors(currentCommand, allSerials, allMovies, allActors, numberOfCommand, arrayResult);
-                    actors.doQuery();
+                    List<UserInputData> allUsers = input.getUsers();
+                    if(input.getCommands().get(i).getCriteria().equals("average") || input.getCommands().get(i).getCriteria().equals("awards") || input.getCommands().get(i).getCriteria().equals("filter_description")) {
+                        Actors actors = new Actors(currentCommand, allSerials, allMovies, allActors, numberOfCommand, arrayResult);
+                        actors.doQuery();
+                    }
+                    else if(input.getCommands().get(i).getCriteria().equals("ratings") || input.getCommands().get(i).getCriteria().equals("favorite") || input.getCommands().get(i).getCriteria().equals("longest") || input.getCommands().get(i).getCriteria().equals("most_viewed")) {
+                        Videos videos = new Videos(currentCommand, numberOfCommand, allSerials, allMovies, allUsers, arrayResult);
+                        videos.doQuery();
+                    }
                 }
         }
         fileWriter.closeJSON(arrayResult);
