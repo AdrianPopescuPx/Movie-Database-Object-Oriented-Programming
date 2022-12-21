@@ -49,6 +49,7 @@ public class Rating extends CommandAction{
                             allMovies.get(q).setRatings(getCurrectCommand().getGrade());
                         }
                     }
+                    getCurrentUser().addRatingNumber();
                     String str = String.format("%.1f", getCurrectCommand().getGrade());
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("id", getNumberOfCommand());
@@ -68,6 +69,7 @@ public class Rating extends CommandAction{
                     }
                 }
                 if (!checkSeason) {
+                    getCurrentUser().addRatingNumber();
                     currentSerial.getSeasons().get(getCurrectCommand().getSeasonNumber() - 1).addRating(getCurrectCommand().getGrade());
                     String str = String.format("%.1f", getCurrectCommand().getGrade());
                     JSONObject jsonObject = new JSONObject();

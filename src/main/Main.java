@@ -1,6 +1,7 @@
 package main;
 
 import Queries.actors.Actors;
+import Queries.users.NumRatings;
 import Queries.videos.Videos;
 import checker.Checkstyle;
 import checker.Checker;
@@ -107,6 +108,10 @@ public final class Main {
                     else if(input.getCommands().get(i).getCriteria().equals("ratings") || input.getCommands().get(i).getCriteria().equals("favorite") || input.getCommands().get(i).getCriteria().equals("longest") || input.getCommands().get(i).getCriteria().equals("most_viewed")) {
                         Videos videos = new Videos(currentCommand, numberOfCommand, allSerials, allMovies, allUsers, arrayResult);
                         videos.doQuery();
+                    }
+                    else if(input.getCommands().get(i).getCriteria().equals("num_ratings")) {
+                        NumRatings numRatings = new NumRatings(currentCommand, allUsers, numberOfCommand, arrayResult);
+                        numRatings.doNumRating();
                     }
                 }
         }
