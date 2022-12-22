@@ -39,5 +39,9 @@ public class Recommendation {
             Popular popular = new Popular(allSerials, allMovies, allUsers, currentCommand, numberOfCommand, arrayResult);
             popular.doPopular();
         }
+        else if(currentCommand.getType().equals("favorite")) {
+            FavoriteR favoriteR = new FavoriteR(allSerials, allMovies, allUsers, currentCommand, numberOfCommand, arrayResult);
+            favoriteR.doFavoriteR();
+        }
     }
 }
