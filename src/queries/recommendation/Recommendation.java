@@ -31,5 +31,9 @@ public class Recommendation {
             Standard standard = new Standard(allSerials, allMovies, allUsers, currentCommand, numberOfCommand, arrayResult);
             standard.doStandard();
         }
+        else if(currentCommand.getType().equals("best_unseen")) {
+            BestUnseen bestUnseen = new BestUnseen(allSerials, allMovies, allUsers, currentCommand, numberOfCommand, arrayResult);
+            bestUnseen.doBestUnseen();
+        }
     }
 }
