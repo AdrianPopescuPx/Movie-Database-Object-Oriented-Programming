@@ -35,5 +35,9 @@ public class Recommendation {
             BestUnseen bestUnseen = new BestUnseen(allSerials, allMovies, allUsers, currentCommand, numberOfCommand, arrayResult);
             bestUnseen.doBestUnseen();
         }
+        else if(currentCommand.getType().equals("popular")) {
+            Popular popular = new Popular(allSerials, allMovies, allUsers, currentCommand, numberOfCommand, arrayResult);
+            popular.doPopular();
+        }
     }
 }
