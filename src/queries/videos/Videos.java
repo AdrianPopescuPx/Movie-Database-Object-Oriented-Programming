@@ -1,4 +1,4 @@
-package Queries.videos;
+package queries.videos;
 
 import fileio.*;
 import org.json.simple.JSONArray;

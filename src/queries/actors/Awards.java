@@ -1,4 +1,4 @@
-package Queries.actors;
+package queries.actors;
 
 import actor.ActorsAwards;
 import fileio.ActionInputData;

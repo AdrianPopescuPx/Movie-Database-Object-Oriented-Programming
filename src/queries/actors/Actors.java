@@ -1,4 +1,4 @@
-package Queries.actors;
+package queries.actors;
 
 import fileio.ActionInputData;
 import fileio.ActorInputData;
@@ -7,8 +7,6 @@ import fileio.SerialInputData;
 import org.json.simple.JSONArray;
 
 import java.util.List;
-
-import static actor.ActorsAwards.BEST_SCREENPLAY;
 
 public class Actors {
     ActionInputData currentCommand;

@@ -1,12 +1,12 @@
 package main;
 
-import Queries.actors.Actors;
-import Queries.users.NumRatings;
-import Queries.videos.Videos;
+import queries.actors.Actors;
+import queries.recommendation.Recommendation;
+import queries.users.NumRatings;
+import queries.videos.Videos;
 import checker.Checkstyle;
 import checker.Checker;
 import commands.CommandAction;
-import commands.User;
 import common.Constants;
 import fileio.*;
 import org.json.simple.JSONArray;
@@ -18,8 +18,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
-
-import static actor.ActorsAwards.BEST_SCREENPLAY;
 
 /**
  * The entry point to this homework. It runs the checker that tests your implentation.
@@ -81,10 +79,10 @@ public final class Main {
             String actionType = input.getCommands().get(i).getActionType();
             String commandType = input.getCommands().get(i).getType();
             if(actionType.equals("command")) {
-                ActionInputData currectCommand = input.getCommands().get(i);
+                ActionInputData currentCommand = input.getCommands().get(i);
                 UserInputData currentUser = null;
                 for (int j = 0; j < input.getUsers().size(); ++j) {
-                    if (input.getUsers().get(j).getUsername().equals(currectCommand.getUsername())) {
+                    if (input.getUsers().get(j).getUsername().equals(currentCommand.getUsername())) {
                         currentUser = input.getUsers().get(j);
                         break;
                     }
@@ -92,28 +90,34 @@ public final class Main {
                 List<ActionInputData> allComands = input.getCommands();
                 List<SerialInputData> allSerials = input.getSerials();
                 List<MovieInputData> allMovies = input.getMovies();
-                CommandAction command = new CommandAction(currentUser, currectCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSerials, allMovies);
+                CommandAction command = new CommandAction(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSerials, allMovies);
                 command.doCommand();
             }
-            else if(actionType.equals("query")){
-                    ActionInputData currentCommand = input.getCommands().get(i);
-                    List<SerialInputData> allSerials = input.getSerials();
-                    List<MovieInputData> allMovies = input.getMovies();
-                    List<ActorInputData> allActors = input.getActors();
-                    List<UserInputData> allUsers = input.getUsers();
-                    if(input.getCommands().get(i).getCriteria().equals("average") || input.getCommands().get(i).getCriteria().equals("awards") || input.getCommands().get(i).getCriteria().equals("filter_description")) {
-                        Actors actors = new Actors(currentCommand, allSerials, allMovies, allActors, numberOfCommand, arrayResult);
-                        actors.doQuery();
-                    }
-                    else if(input.getCommands().get(i).getCriteria().equals("ratings") || input.getCommands().get(i).getCriteria().equals("favorite") || input.getCommands().get(i).getCriteria().equals("longest") || input.getCommands().get(i).getCriteria().equals("most_viewed")) {
-                        Videos videos = new Videos(currentCommand, numberOfCommand, allSerials, allMovies, allUsers, arrayResult);
-                        videos.doQuery();
-                    }
-                    else if(input.getCommands().get(i).getCriteria().equals("num_ratings")) {
-                        NumRatings numRatings = new NumRatings(currentCommand, allUsers, numberOfCommand, arrayResult);
-                        numRatings.doNumRating();
-                    }
+            else if(actionType.equals("query")) {
+                ActionInputData currentCommand = input.getCommands().get(i);
+                List<SerialInputData> allSerials = input.getSerials();
+                List<MovieInputData> allMovies = input.getMovies();
+                List<ActorInputData> allActors = input.getActors();
+                List<UserInputData> allUsers = input.getUsers();
+                if (input.getCommands().get(i).getCriteria().equals("average") || input.getCommands().get(i).getCriteria().equals("awards") || input.getCommands().get(i).getCriteria().equals("filter_description")) {
+                    Actors actors = new Actors(currentCommand, allSerials, allMovies, allActors, numberOfCommand, arrayResult);
+                    actors.doQuery();
+                } else if (input.getCommands().get(i).getCriteria().equals("ratings") || input.getCommands().get(i).getCriteria().equals("favorite") || input.getCommands().get(i).getCriteria().equals("longest") || input.getCommands().get(i).getCriteria().equals("most_viewed")) {
+                    Videos videos = new Videos(currentCommand, numberOfCommand, allSerials, allMovies, allUsers, arrayResult);
+                    videos.doQuery();
+                } else if (input.getCommands().get(i).getCriteria().equals("num_ratings")) {
+                    NumRatings numRatings = new NumRatings(currentCommand, allUsers, numberOfCommand, arrayResult);
+                    numRatings.doNumRating();
                 }
+            }
+            else {
+                ActionInputData currentCommand = input.getCommands().get(i);
+                List<SerialInputData> allSerials = input.getSerials();
+                List<MovieInputData> allMovies = input.getMovies();
+                List<UserInputData> allUsers = input.getUsers();
+                Recommendation recommendation = new Recommendation(allSerials, allMovies, allUsers, currentCommand, numberOfCommand, arrayResult);
+                recommendation.doRecommandation();
+            }
         }
         fileWriter.closeJSON(arrayResult);
     }

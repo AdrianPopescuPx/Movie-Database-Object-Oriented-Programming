@@ -1,4 +1,4 @@
-package Queries.videos;
+package queries.videos;
 
 import fileio.ActionInputData;
 import fileio.MovieInputData;

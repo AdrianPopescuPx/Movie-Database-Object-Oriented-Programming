@@ -1,4 +1,4 @@
-package Queries.actors;
+package queries.actors;
 
 import fileio.ActionInputData;
 import fileio.ActorInputData;

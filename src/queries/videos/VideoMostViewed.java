@@ -1,4 +1,4 @@
-package Queries.videos;
+package queries.videos;
 
 import fileio.ActionInputData;
 import fileio.MovieInputData;
@@ -11,18 +11,18 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class VideoFavorite extends Videos{
-    public VideoFavorite(ActionInputData currentCommand, int numberOfCommand, List<SerialInputData> allSerials, List<MovieInputData> allMovies, List<UserInputData> allUsers, JSONArray arrayResult) {
+public class VideoMostViewed extends Videos{
+    public VideoMostViewed(ActionInputData currentCommand, int numberOfCommand, List<SerialInputData> allSerials, List<MovieInputData> allMovies, List<UserInputData> allUsers, JSONArray arrayResult) {
         super(currentCommand, numberOfCommand, allSerials, allMovies, allUsers, arrayResult);
     }
 
-    public void doVideoFavorite() {
+    public void doVideoMostViewed() {
         if(currentCommand.getObjectType().equals("movies")) {
             ArrayList<String> result = new ArrayList<>();
             for(MovieInputData currentMovie: allMovies) {
                 for(UserInputData currentUser: allUsers) {
-                    if(currentUser.getFavoriteMovies().contains(currentMovie.getTitle())) {
-                        currentMovie.addFavoriteApparition(1);
+                    if(currentUser.getHistory().containsKey(currentMovie.getTitle())) {
+                        currentMovie.addViews(currentUser.getHistory().get(currentMovie.getTitle()));
                     }
                 }
             }
@@ -30,16 +30,16 @@ public class VideoFavorite extends Videos{
                 @Override
                 public int compare(MovieInputData o1, MovieInputData o2) {
                     if(currentCommand.getSortType().equals("asc")) {
-                        if(Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
+                        if(Double.compare(o1.getViews(), o2.getViews()) == 0) {
                             return o1.getTitle().compareTo(o2.getTitle());
                         }
-                        return Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions());
+                        return Double.compare(o1.getViews(), o2.getViews());
                     }
                     else {
-                        if(Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
+                        if(Double.compare(o1.getViews(), o2.getViews()) == 0) {
                             return -o1.getTitle().compareTo(o2.getTitle());
                         }
-                        return -Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions());
+                        return -Double.compare(o1.getViews(), o2.getViews());
                     }
                 }
             });
@@ -47,7 +47,7 @@ public class VideoFavorite extends Videos{
                 if(result.size() == currentCommand.getNumber()) {
                     break;
                 }
-                if(currentMovie.getFavoriteApparitions() > 0) {
+                if(currentMovie.getViews() > 0) {
                     String checkYear = currentCommand.getFilters().get(0).get(0);
                     String checkGenre = currentCommand.getFilters().get(1).get(0);
                     if(checkYear == null && checkGenre == null) {
@@ -95,10 +95,10 @@ public class VideoFavorite extends Videos{
         }
         else if(currentCommand.getObjectType().equals("shows")) {
             ArrayList<String> result = new ArrayList<>();
-            for(SerialInputData currentShow: allSerials) {
+            for(SerialInputData currentSerial: allSerials) {
                 for(UserInputData currentUser: allUsers) {
-                    if(currentUser.getFavoriteMovies().contains(currentShow.getTitle())) {
-                        currentShow.addFavoriteApparition(1);
+                    if(currentUser.getHistory().containsKey(currentSerial.getTitle())) {
+                        currentSerial.addViews(currentUser.getHistory().get(currentSerial.getTitle()));
                     }
                 }
             }
@@ -106,60 +106,60 @@ public class VideoFavorite extends Videos{
                 @Override
                 public int compare(SerialInputData o1, SerialInputData o2) {
                     if(currentCommand.getSortType().equals("asc")) {
-                        if(Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
+                        if(Double.compare(o1.getViews(), o2.getViews()) == 0) {
                             return o1.getTitle().compareTo(o2.getTitle());
                         }
-                        return Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions());
+                        return Double.compare(o1.getViews(), o2.getViews());
                     }
                     else {
-                        if(Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
+                        if(Double.compare(o1.getViews(), o2.getViews()) == 0) {
                             return -o1.getTitle().compareTo(o2.getTitle());
                         }
-                        return -Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions());
+                        return -Double.compare(o1.getViews(), o2.getViews());
                     }
                 }
             });
-            for(SerialInputData currentShow: allSerials) {
+            for(SerialInputData currentSerial: allSerials) {
                 if(result.size() == currentCommand.getNumber()) {
                     break;
                 }
-                if(currentShow.getFavoriteApparitions() > 0) {
+                if(currentSerial.getViews() > 0) {
                     String checkYear = currentCommand.getFilters().get(0).get(0);
                     String checkGenre = currentCommand.getFilters().get(1).get(0);
                     if(checkYear == null && checkGenre == null) {
-                        result.add(currentShow.getTitle());
+                        result.add(currentSerial.getTitle());
                     }
                     else if(checkYear == null && checkGenre != null){
                         boolean genreOk = false;
-                        if(currentShow.getGenres().contains(checkGenre)) {
+                        if(currentSerial.getGenres().contains(checkGenre)) {
                             genreOk = true;
                         }
                         if(genreOk) {
-                            result.add(currentShow.getTitle());
+                            result.add(currentSerial.getTitle());
                         }
                     }
                     else if(checkYear != null && checkGenre == null) {
                         boolean yearOk = false;
-                        String movieYear = String.valueOf(currentShow.getYear());
+                        String movieYear = String.valueOf(currentSerial.getYear());
                         if(movieYear.equals(checkYear)) {
                             yearOk = true;
                         }
                         if(yearOk) {
-                            result.add(currentShow.getTitle());
+                            result.add(currentSerial.getTitle());
                         }
                     }
                     else {
                         boolean yearOk = false;
                         boolean genreOk = false;
-                        String movieYear = String.valueOf(currentShow.getYear());
+                        String movieYear = String.valueOf(currentSerial.getYear());
                         if(movieYear.equals(checkYear)) {
                             yearOk = true;
                         }
-                        if(currentShow.getGenres().contains(checkGenre)) {
+                        if(currentSerial.getGenres().contains(checkGenre)) {
                             genreOk = true;
                         }
                         if(genreOk && yearOk) {
-                            result.add(currentShow.getTitle());
+                            result.add(currentSerial.getTitle());
                         }
                     }
                 }

@@ -1,4 +1,4 @@
-package Queries.users;
+package queries.users;
 
 import fileio.*;
 import org.json.JSONObject;
