@@ -6,11 +6,11 @@ public class User {
 
     private final Map<String, User> users = new HashMap<>();
 
-    public void addUser(String string, User user) {
+    public final void addUser(final String string, final User user) {
         this.users.put(string, user);
     }
 
-    public Map<String, User> getUsers() {
+    public final Map<String, User> getUsers() {
         return this.users;
     }
 }

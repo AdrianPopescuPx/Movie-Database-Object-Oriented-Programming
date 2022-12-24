@@ -16,14 +16,31 @@ public class CommandAction {
 
     private UserInputData currentUser;
     private ActionInputData currentCommand;
-    List<ActionInputData> allComands;
-    List<MovieInputData> allMovies;
+    private List<ActionInputData> allComands;
+    private List<MovieInputData> allMovies;
 
-    JSONArray arrayResult = new JSONArray();
-    List<SerialInputData> allSerials;
+    private JSONArray arrayResult = new JSONArray();
+
+    public final ActionInputData getCurrentCommand() {
+        return currentCommand;
+    }
+
+    public final List<ActionInputData> getAllComands() {
+        return allComands;
+    }
+
+    public final List<MovieInputData> getAllMovies() {
+        return allMovies;
+    }
+
+    public final List<SerialInputData> getAllSerials() {
+        return allSerials;
+    }
+
+    private List<SerialInputData> allSerials;
 
 
-    public CommandAction(UserInputData currentUser, ActionInputData currentCommand, String actionType, String commandType, int numberOfCommand, JSONArray arrayResult, List<ActionInputData> allComands, List<SerialInputData> allSerials, List<MovieInputData> allMovies) {
+    public CommandAction(final UserInputData currentUser, final ActionInputData currentCommand, final String actionType, final String commandType, final int numberOfCommand, final JSONArray arrayResult, final List<ActionInputData> allComands, final List<SerialInputData> allSerials, final List<MovieInputData> allMovies) {
         this.commandType = commandType;
         this.currentUser = currentUser;
         this.actionType = actionType;
@@ -35,67 +52,40 @@ public class CommandAction {
         this.allMovies = allMovies;
     }
 
-    public CommandAction() {
-
-    }
-
-    public ActionInputData getCurrectCommand() {
+    public final ActionInputData getCurrectCommand() {
         return currentCommand;
     }
 
-    public void setCurrectCommand(ActionInputData currectCommand) {
-        this.currentCommand = currectCommand;
-    }
 
-    public String getCommandType() {
+    public final String getCommandType() {
         return commandType;
     }
 
-    public void setCommandType(String commandType) {
-        this.commandType = commandType;
-    }
-
-    public String getActionType() {
+    public final String getActionType() {
         return actionType;
     }
 
-    public void setActionType(String actionType) {
-        this.actionType = actionType;
-    }
-
-    public UserInputData getCurrentUser() {
+    public final UserInputData getCurrentUser() {
         return currentUser;
     }
 
-    public void setCurrentUser(UserInputData currentUser) {
-        this.currentUser = currentUser;
-    }
 
-    public int getNumberOfCommand() {
+    public final int getNumberOfCommand() {
         return numberOfCommand;
     }
 
-    public void setNumberOfCommand(int numberOfCommand) {
-        this.numberOfCommand = numberOfCommand;
-    }
-    public JSONArray getArrayResult() {
+    public final JSONArray getArrayResult() {
         return arrayResult;
     }
 
-    public void setArrayResult(JSONArray arrayResult) {
-        this.arrayResult = arrayResult;
-    }
-
-    public void doCommand() {
-        if(commandType.equals("favorite")) {
+    public final void doCommand() {
+        if (commandType.equals("favorite")) {
             Favorite favorite = new Favorite(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSerials, allMovies);
             favorite.doFavorite();
-        }
-        else if(commandType.equals("view")) {
+        } else if (commandType.equals("view")) {
             View view = new View(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSerials, allMovies);
             view.doView();
-        }
-        else if(commandType.equals("rating")) {
+        } else if (commandType.equals("rating")) {
             Rating rating = new Rating(currentUser, currentCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSerials, allMovies);
             rating.doRating();
         }

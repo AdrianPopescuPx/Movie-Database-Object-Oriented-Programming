@@ -12,49 +12,42 @@ import java.util.List;
 
 public class Standard extends Recommendation{
 
-    public Standard(List<SerialInputData> allSerials, List<MovieInputData> allMovies, List<UserInputData> allUsers, ActionInputData currentCommand, int numberOfCommand, JSONArray arrayResult) {
+    public Standard(final List<SerialInputData> allSerials, final List<MovieInputData> allMovies, final List<UserInputData> allUsers, final ActionInputData currentCommand, final int numberOfCommand, final JSONArray arrayResult) {
         super(allSerials, allMovies, allUsers, currentCommand, numberOfCommand, arrayResult);
     }
 
-    public void doStandard() {
+    public final void doStandard() {
         String result = null;
         int userIndex = 0;
-        for(int i = 0; i < allUsers.size(); ++i) {
-            if(allUsers.get(i).getUsername().equals(currentCommand.getUsername())) {
+        for (int i = 0; i < allUsers.size(); ++i) {
+            if (allUsers.get(i).getUsername().equals(currentCommand.getUsername())) {
                 userIndex = i;
                 break;
             }
         }
         boolean found = false;
-        for(MovieInputData currentMovie: allMovies) {
-            if(allUsers.get(userIndex).getHistory().containsKey(currentMovie.getTitle())) {
-                continue;
-            }
-            else {
+        for (MovieInputData currentMovie: allMovies) {
+            if (!allUsers.get(userIndex).getHistory().containsKey(currentMovie.getTitle())) {
                 found = true;
                 result = currentMovie.getTitle();
                 break;
             }
         }
-        if(!found) {
+        if (!found) {
             for(SerialInputData currentSerial: allSerials) {
-                if(allUsers.get(userIndex).getHistory().containsKey(currentSerial.getTitle())) {
-                    continue;
-                }
-                else {
+                if(!allUsers.get(userIndex).getHistory().containsKey(currentSerial.getTitle())) {
                     found = true;
                     result = currentSerial.getTitle();
                     break;
                 }
             }
         }
-        if(found) {
+        if (found) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", numberOfCommand);
             jsonObject.put("message", "StandardRecommendation result: " + result);
             arrayResult.add(jsonObject);
-        }
-        else {
+        } else {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", numberOfCommand);
             jsonObject.put("message", "StandardRecommendation cannot be applied!");

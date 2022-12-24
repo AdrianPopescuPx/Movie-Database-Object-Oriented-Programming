@@ -11,85 +11,75 @@ import java.util.Comparator;
 import java.util.List;
 
 public class FavoriteR extends Recommendation{
-    public FavoriteR(List<SerialInputData> allSerials, List<MovieInputData> allMovies, List<UserInputData> allUsers, ActionInputData currentCommand, int numberOfCommand, JSONArray arrayResult) {
+    public FavoriteR(final List<SerialInputData> allSerials, final List<MovieInputData> allMovies, final List<UserInputData> allUsers, final ActionInputData currentCommand, final int numberOfCommand, final JSONArray arrayResult) {
         super(allSerials, allMovies, allUsers, currentCommand, numberOfCommand, arrayResult);
     }
 
-    public void doFavoriteR() {
+    public final void doFavoriteR() {
 
-        List<MovieInputData> copyMovies = allMovies;
-        List<SerialInputData> copySerial = allSerials;
-        for(MovieInputData currentMovie: copyMovies) {
-            for(UserInputData currentUser: allUsers) {
-                if(currentUser.getFavoriteMovies().contains(currentMovie.getTitle())) {
+        for (MovieInputData currentMovie: allMovies) {
+            for (UserInputData currentUser: allUsers) {
+                if (currentUser.getFavoriteMovies().contains(currentMovie.getTitle())) {
                     currentMovie.addFavoriteApparition(1);
                 }
             }
         }
-        copyMovies.sort(new Comparator<MovieInputData>() {
+        allMovies.sort(new Comparator<MovieInputData>() {
             @Override
             public int compare(MovieInputData o1, MovieInputData o2) {
-                if(Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
-                    return -o1.getTitle().compareTo(o2.getTitle());
-                }
                 return -Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions());
             }
         });
-        for(SerialInputData currentSerial: copySerial) {
-            for(UserInputData currentUser: allUsers) {
-                if(currentUser.getFavoriteMovies().contains(currentSerial.getTitle())) {
+        for (SerialInputData currentSerial: allSerials) {
+            for (UserInputData currentUser: allUsers) {
+                if (currentUser.getFavoriteMovies().contains(currentSerial.getTitle())) {
                     currentSerial.addFavoriteApparition(1);
                 }
             }
         }
-        copySerial.sort(new Comparator<SerialInputData>() {
+        allSerials.sort(new Comparator<SerialInputData>() {
             @Override
             public int compare(SerialInputData o1, SerialInputData o2) {
-                if(Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
-                    return -o1.getTitle().compareTo(o2.getTitle());
-                }
                 return -Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions());
             }
         });
         int userIndex = 0;
-        for(int i = 0; i < allUsers.size(); ++i) {
-            if(allUsers.get(i).getUsername().equals(currentCommand.getUsername())) {
+        for (int i = 0; i < allUsers.size(); ++i) {
+            if (allUsers.get(i).getUsername().equals(currentCommand.getUsername())) {
                 userIndex = i;
                 break;
             }
         }
-        if(allUsers.get(userIndex).getSubscriptionType().equals("BASIC")) {
+        if (allUsers.get(userIndex).getSubscriptionType().equals("BASIC")) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", numberOfCommand);
-            jsonObject.put("message", "PopularRecommendation cannot be applied!");
+            jsonObject.put("message", "FavoriteRecommendation cannot be applied!");
             arrayResult.add(jsonObject);
-        }
-        else {
+        } else {
             boolean found = false;
             String result = null;
-            for(MovieInputData currentMovie: copyMovies) {
-                if(!allUsers.get(userIndex).getHistory().containsKey(currentMovie.getTitle())) {
+            for (MovieInputData currentMovie: allMovies) {
+                if (!allUsers.get(userIndex).getHistory().containsKey(currentMovie.getTitle()) && currentMovie.getFavoriteApparitions() > 0) {
                     result = currentMovie.getTitle();
                     found = true;
                     break;
                 }
             }
-            if(!found) {
-                for(SerialInputData currentSerial: copySerial) {
-                    if(!allUsers.get(userIndex).getHistory().containsKey(currentSerial.getTitle())) {
+            if (!found) {
+                for (SerialInputData currentSerial: allSerials) {
+                    if (!allUsers.get(userIndex).getHistory().containsKey(currentSerial.getTitle()) && currentSerial.getFavoriteApparitions() > 0) {
                         result = currentSerial.getTitle();
                         found = true;
                         break;
                     }
                 }
             }
-            if(found) {
+            if (found) {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("id", numberOfCommand);
                 jsonObject.put("message", "FavoriteRecommendation result: " + result);
                 arrayResult.add(jsonObject);
-            }
-            else {
+            } else {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("id", numberOfCommand);
                 jsonObject.put("message", "FavoriteRecommendation cannot be applied!");

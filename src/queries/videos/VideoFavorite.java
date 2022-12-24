@@ -11,17 +11,17 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class VideoFavorite extends Videos{
-    public VideoFavorite(ActionInputData currentCommand, int numberOfCommand, List<SerialInputData> allSerials, List<MovieInputData> allMovies, List<UserInputData> allUsers, JSONArray arrayResult) {
+public class VideoFavorite extends Videos {
+    public VideoFavorite(final ActionInputData currentCommand, final int numberOfCommand, final List<SerialInputData> allSerials, final List<MovieInputData> allMovies, final List<UserInputData> allUsers, final JSONArray arrayResult) {
         super(currentCommand, numberOfCommand, allSerials, allMovies, allUsers, arrayResult);
     }
 
-    public void doVideoFavorite() {
-        if(currentCommand.getObjectType().equals("movies")) {
+    public final void doVideoFavorite() {
+        if (currentCommand.getObjectType().equals("movies")) {
             ArrayList<String> result = new ArrayList<>();
-            for(MovieInputData currentMovie: allMovies) {
-                for(UserInputData currentUser: allUsers) {
-                    if(currentUser.getFavoriteMovies().contains(currentMovie.getTitle())) {
+            for (MovieInputData currentMovie: allMovies) {
+                for (UserInputData currentUser: allUsers) {
+                    if (currentUser.getFavoriteMovies().contains(currentMovie.getTitle())) {
                         currentMovie.addFavoriteApparition(1);
                     }
                 }
@@ -29,60 +29,56 @@ public class VideoFavorite extends Videos{
             allMovies.sort(new Comparator<MovieInputData>() {
                 @Override
                 public int compare(MovieInputData o1, MovieInputData o2) {
-                    if(currentCommand.getSortType().equals("asc")) {
-                        if(Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
+                    if (currentCommand.getSortType().equals("asc")) {
+                        if (Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
                             return o1.getTitle().compareTo(o2.getTitle());
                         }
                         return Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions());
-                    }
-                    else {
-                        if(Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
+                    } else {
+                        if (Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
                             return -o1.getTitle().compareTo(o2.getTitle());
                         }
                         return -Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions());
                     }
                 }
             });
-            for(MovieInputData currentMovie: allMovies) {
-                if(result.size() == currentCommand.getNumber()) {
+            for (MovieInputData currentMovie: allMovies) {
+                if (result.size() == currentCommand.getNumber()) {
                     break;
                 }
-                if(currentMovie.getFavoriteApparitions() > 0) {
+                if (currentMovie.getFavoriteApparitions() > 0) {
                     String checkYear = currentCommand.getFilters().get(0).get(0);
                     String checkGenre = currentCommand.getFilters().get(1).get(0);
-                    if(checkYear == null && checkGenre == null) {
+                    if (checkYear == null && checkGenre == null) {
                         result.add(currentMovie.getTitle());
-                    }
-                    else if(checkYear == null && checkGenre != null){
+                    } else if (checkYear == null && checkGenre != null){
                         boolean genreOk = false;
-                        if(currentMovie.getGenres().contains(checkGenre)) {
+                        if (currentMovie.getGenres().contains(checkGenre)) {
                             genreOk = true;
                         }
-                        if(genreOk) {
+                        if (genreOk) {
                             result.add(currentMovie.getTitle());
                         }
-                    }
-                    else if(checkYear != null && checkGenre == null) {
+                    } else if (checkYear != null && checkGenre == null) {
                         boolean yearOk = false;
                         String movieYear = String.valueOf(currentMovie.getYear());
-                        if(movieYear.equals(checkYear)) {
+                        if (movieYear.equals(checkYear)) {
                             yearOk = true;
                         }
-                        if(yearOk) {
+                        if (yearOk) {
                             result.add(currentMovie.getTitle());
                         }
-                    }
-                    else {
+                    } else {
                         boolean yearOk = false;
                         boolean genreOk = false;
                         String movieYear = String.valueOf(currentMovie.getYear());
-                        if(movieYear.equals(checkYear)) {
+                        if (movieYear.equals(checkYear)) {
                             yearOk = true;
                         }
-                        if(currentMovie.getGenres().contains(checkGenre)) {
+                        if (currentMovie.getGenres().contains(checkGenre)) {
                             genreOk = true;
                         }
-                        if(genreOk && yearOk) {
+                        if (genreOk && yearOk) {
                             result.add(currentMovie.getTitle());
                         }
                     }
@@ -92,12 +88,11 @@ public class VideoFavorite extends Videos{
             jsonObject.put("id", numberOfCommand);
             jsonObject.put("message", "Query result: " + result);
             arrayResult.add(jsonObject);
-        }
-        else if(currentCommand.getObjectType().equals("shows")) {
+        } else if (currentCommand.getObjectType().equals("shows")) {
             ArrayList<String> result = new ArrayList<>();
-            for(SerialInputData currentShow: allSerials) {
-                for(UserInputData currentUser: allUsers) {
-                    if(currentUser.getFavoriteMovies().contains(currentShow.getTitle())) {
+            for (SerialInputData currentShow: allSerials) {
+                for (UserInputData currentUser: allUsers) {
+                    if (currentUser.getFavoriteMovies().contains(currentShow.getTitle())) {
                         currentShow.addFavoriteApparition(1);
                     }
                 }
@@ -105,60 +100,56 @@ public class VideoFavorite extends Videos{
             allSerials.sort(new Comparator<SerialInputData>() {
                 @Override
                 public int compare(SerialInputData o1, SerialInputData o2) {
-                    if(currentCommand.getSortType().equals("asc")) {
-                        if(Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
+                    if (currentCommand.getSortType().equals("asc")) {
+                        if (Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
                             return o1.getTitle().compareTo(o2.getTitle());
                         }
                         return Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions());
-                    }
-                    else {
-                        if(Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
+                    } else {
+                        if (Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions()) == 0) {
                             return -o1.getTitle().compareTo(o2.getTitle());
                         }
                         return -Double.compare(o1.getFavoriteApparitions(), o2.getFavoriteApparitions());
                     }
                 }
             });
-            for(SerialInputData currentShow: allSerials) {
-                if(result.size() == currentCommand.getNumber()) {
+            for (SerialInputData currentShow: allSerials) {
+                if (result.size() == currentCommand.getNumber()) {
                     break;
                 }
-                if(currentShow.getFavoriteApparitions() > 0) {
+                if (currentShow.getFavoriteApparitions() > 0) {
                     String checkYear = currentCommand.getFilters().get(0).get(0);
                     String checkGenre = currentCommand.getFilters().get(1).get(0);
-                    if(checkYear == null && checkGenre == null) {
+                    if (checkYear == null && checkGenre == null) {
                         result.add(currentShow.getTitle());
-                    }
-                    else if(checkYear == null && checkGenre != null){
+                    } else if (checkYear == null && checkGenre != null){
                         boolean genreOk = false;
-                        if(currentShow.getGenres().contains(checkGenre)) {
+                        if (currentShow.getGenres().contains(checkGenre)) {
                             genreOk = true;
                         }
-                        if(genreOk) {
+                        if (genreOk) {
                             result.add(currentShow.getTitle());
                         }
-                    }
-                    else if(checkYear != null && checkGenre == null) {
+                    } else if (checkYear != null && checkGenre == null) {
                         boolean yearOk = false;
                         String movieYear = String.valueOf(currentShow.getYear());
-                        if(movieYear.equals(checkYear)) {
+                        if (movieYear.equals(checkYear)) {
                             yearOk = true;
                         }
-                        if(yearOk) {
+                        if (yearOk) {
                             result.add(currentShow.getTitle());
                         }
-                    }
-                    else {
+                    } else {
                         boolean yearOk = false;
                         boolean genreOk = false;
                         String movieYear = String.valueOf(currentShow.getYear());
-                        if(movieYear.equals(checkYear)) {
+                        if (movieYear.equals(checkYear)) {
                             yearOk = true;
                         }
-                        if(currentShow.getGenres().contains(checkGenre)) {
+                        if (currentShow.getGenres().contains(checkGenre)) {
                             genreOk = true;
                         }
-                        if(genreOk && yearOk) {
+                        if (genreOk && yearOk) {
                             result.add(currentShow.getTitle());
                         }
                     }

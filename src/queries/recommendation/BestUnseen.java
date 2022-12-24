@@ -12,18 +12,15 @@ import java.util.List;
 
 public class BestUnseen extends Recommendation{
 
-    public BestUnseen(List<SerialInputData> allSerials, List<MovieInputData> allMovies, List<UserInputData> allUsers, ActionInputData currentCommand, int numberOfCommand, JSONArray arrayResult) {
+    public BestUnseen(final List<SerialInputData> allSerials, final List<MovieInputData> allMovies, final List<UserInputData> allUsers, final ActionInputData currentCommand, final int numberOfCommand, final JSONArray arrayResult) {
         super(allSerials, allMovies, allUsers, currentCommand, numberOfCommand, arrayResult);
     }
 
-    public void doBestUnseen() {
+    public final void doBestUnseen() {
         String result = null;
         allMovies.sort(new Comparator<MovieInputData>() {
             @Override
             public int compare(MovieInputData o1, MovieInputData o2) {
-                    if(Double.compare(o1.getRatings(), o2.getRatings()) == 0) {
-                        return -o1.getTitle().compareTo(o2.getTitle());
-                    }
                     return -Double.compare(o1.getRatings(), o2.getRatings());
             }
         });
@@ -31,44 +28,39 @@ public class BestUnseen extends Recommendation{
         allSerials.sort(new Comparator<SerialInputData>() {
             @Override
             public int compare(SerialInputData o1, SerialInputData o2) {
-                    if(Double.compare(o1.getSeasonsRating(), o2.getSeasonsRating()) == 0) {
-                        return -o1.getTitle().compareTo(o2.getTitle());
-                    }
                     return -Double.compare(o1.getSeasonsRating(), o2.getSeasonsRating());
                 }
         });
 
         int userIndex = 0;
-        for(int i = 0; i < allUsers.size(); ++i) {
+        for (int i = 0; i < allUsers.size(); ++i) {
             if(allUsers.get(i).getUsername().equals(currentCommand.getUsername())) {
                 userIndex = i;
                 break;
             }
         }
         boolean found = false;
-        for(MovieInputData currentMovie: allMovies) {
+        for (MovieInputData currentMovie: allMovies) {
             if(allUsers.get(userIndex).getHistory().containsKey(currentMovie.getTitle())) {
                 continue;
-            }
-            else {
+            } else {
                 found = true;
                 result = currentMovie.getTitle();
                 break;
             }
         }
-        if(!found) {
-            for(SerialInputData currentSerial: allSerials) {
+        if (!found) {
+            for (SerialInputData currentSerial: allSerials) {
                 if(allUsers.get(userIndex).getHistory().containsKey(currentSerial.getTitle())) {
                     continue;
-                }
-                else {
+                } else {
                     found = true;
                     result = currentSerial.getTitle();
                     break;
                 }
             }
         }
-        if(found) {
+        if (found) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", numberOfCommand);
             jsonObject.put("message", "BestRatedUnseenRecommendation result: " + result);

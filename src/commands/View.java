@@ -9,27 +9,26 @@ import org.json.simple.JSONArray;
 
 import java.util.List;
 
-public class View extends CommandAction{
+public class View extends CommandAction {
 
-    public View(UserInputData currentUser, ActionInputData currectCommand, String actionType, String commandType, int numberOfCommand, JSONArray arrayResult, List<ActionInputData> allComands, List<SerialInputData> allSerials, List<MovieInputData> allMovies) {
+    public View(final UserInputData currentUser, final ActionInputData currectCommand, final String actionType, final String commandType, final int numberOfCommand, final JSONArray arrayResult, final List<ActionInputData> allComands, final List<SerialInputData> allSerials, final List<MovieInputData> allMovies) {
         super(currentUser, currectCommand, actionType, commandType, numberOfCommand, arrayResult, allComands, allSerials, allMovies);
     }
 
-    public void doView() {
-        if(getCurrentUser().getHistory().containsKey(getCurrectCommand().getTitle())) {
+    public final void doView() {
+        if (getCurrentUser().getHistory().containsKey(getCurrectCommand().getTitle())) {
             String title = getCurrectCommand().getTitle();
             getCurrentUser().getHistory().put(title, getCurrentUser().getHistory().get(title) + 1);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", getNumberOfCommand());
             jsonObject.put("message", "success -> " + getCurrectCommand().getTitle() + " was viewed with total views of " + getCurrentUser().getHistory().get(getCurrectCommand().getTitle()));
-            arrayResult.add(jsonObject);
-        }
-        else {
+            getArrayResult().add(jsonObject);
+        } else {
             getCurrentUser().getHistory().put(getCurrectCommand().getTitle(), 1);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", getNumberOfCommand());
             jsonObject.put("message", "success -> " + getCurrectCommand().getTitle() + " was viewed with total views of " + getCurrentUser().getHistory().get(getCurrectCommand().getTitle()));
-            arrayResult.add(jsonObject);
+            getArrayResult().add(jsonObject);
         }
     }
 }

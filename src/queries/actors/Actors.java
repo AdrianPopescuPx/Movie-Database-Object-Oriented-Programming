@@ -16,7 +16,7 @@ public class Actors {
     int numberOfCommand;
     JSONArray arrayResult = new JSONArray();
 
-    public Actors(ActionInputData currentCommand, List<SerialInputData> allSerials, List<MovieInputData> allMovies, List<ActorInputData> allActors, int numberOfCommand, JSONArray arrayResult) {
+    public Actors(final ActionInputData currentCommand, final List<SerialInputData> allSerials, final List<MovieInputData> allMovies, final List<ActorInputData> allActors, final int numberOfCommand, final JSONArray arrayResult) {
         this.currentCommand = currentCommand;
         this.allActors = allActors;
         this.arrayResult = arrayResult;
@@ -25,16 +25,14 @@ public class Actors {
         this.numberOfCommand = numberOfCommand;
     }
 
-    public void doQuery() {
-        if(currentCommand.getCriteria().equals("average")) {
+    public final void doQuery() {
+        if (currentCommand.getCriteria().equals("average")) {
             Average average = new Average(currentCommand, allSerials, allMovies, allActors, numberOfCommand, arrayResult);
             average.doAverage();
-        }
-        else if(currentCommand.getCriteria().equals("awards")) {
+        } else if (currentCommand.getCriteria().equals("awards")) {
             Awards awards = new Awards(currentCommand, allSerials, allMovies, allActors, numberOfCommand, arrayResult);
             awards.doAwards();
-        }
-        else if(currentCommand.getCriteria().equals("filter_description")) {
+        } else if (currentCommand.getCriteria().equals("filter_description")) {
             FilterDescription filterDescription = new FilterDescription(currentCommand, allSerials, allMovies, allActors, numberOfCommand, arrayResult);
             filterDescription.doFilterDescription();
         }

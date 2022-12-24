@@ -10,45 +10,43 @@ import java.util.List;
 
 public class NumRatings {
 
-    List<UserInputData> allUsers;
+    final List<UserInputData> allUsers;
 
-    ActionInputData currentCommand;
+    final ActionInputData currentCommand;
 
-    int numberOfCommand;
+    final int numberOfCommand;
 
     JSONArray arrayResult = new JSONArray();
-
-    public NumRatings(ActionInputData currentCommand, List<UserInputData> allUsers, int numberOfCommand, JSONArray arrayResult) {
+    public NumRatings(final ActionInputData currentCommand, final List<UserInputData> allUsers, final int numberOfCommand, final JSONArray arrayResult) {
         this.currentCommand = currentCommand;
         this.arrayResult = arrayResult;
         this.numberOfCommand = numberOfCommand;
         this.allUsers = allUsers;
     }
 
-    public void doNumRating() {
+    public final void doNumRating() {
         ArrayList<String> result = new ArrayList<>();
         allUsers.sort(new Comparator<UserInputData>() {
             @Override
             public int compare(UserInputData o1, UserInputData o2) {
-                if(currentCommand.getSortType().equals("asc")) {
-                    if(Double.compare(o1.getRatingNumber(), o2.getRatingNumber()) == 0) {
+                if (currentCommand.getSortType().equals("asc")) {
+                    if (Double.compare(o1.getRatingNumber(), o2.getRatingNumber()) == 0) {
                         return o1.getUsername().compareTo(o2.getUsername());
                     }
                     return Double.compare(o1.getRatingNumber(), o2.getRatingNumber());
-                }
-                else {
-                    if(Double.compare(o1.getRatingNumber(), o2.getRatingNumber()) == 0) {
+                } else {
+                    if (Double.compare(o1.getRatingNumber(), o2.getRatingNumber()) == 0) {
                         return -o1.getUsername().compareTo(o2.getUsername());
                     }
                     return -Double.compare(o1.getRatingNumber(), o2.getRatingNumber());
                 }
             }
         });
-        for(UserInputData currentUser: allUsers) {
-            if(result.size() == currentCommand.getNumber()) {
+        for (UserInputData currentUser: allUsers) {
+            if (result.size() == currentCommand.getNumber()) {
                 break;
             }
-            if(currentUser.getRatingNumber() > 0) {
+            if (currentUser.getRatingNumber() > 0) {
                 result.add(currentUser.getUsername());
             }
         }

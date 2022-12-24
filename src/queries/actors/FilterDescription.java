@@ -14,29 +14,28 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FilterDescription extends Actors{
-    public FilterDescription(ActionInputData currentCommand, List<SerialInputData> allSerials, List<MovieInputData> allMovies, List<ActorInputData> allActors, int numberOfCommand, JSONArray arrayResult) {
+    public FilterDescription(final ActionInputData currentCommand, final List<SerialInputData> allSerials, final List<MovieInputData> allMovies, final List<ActorInputData> allActors, final int numberOfCommand, final JSONArray arrayResult) {
         super(currentCommand, allSerials, allMovies, allActors, numberOfCommand, arrayResult);
     }
 
-    public void doFilterDescription() {
+    public final void doFilterDescription() {
         allActors.sort(new Comparator<ActorInputData>() {
             @Override
             public int compare(ActorInputData o1, ActorInputData o2) {
-                if(currentCommand.getSortType().equals("asc")) {
+                if (currentCommand.getSortType().equals("asc")) {
                     return o1.getName().compareTo(o2.getName());
-                }
-                else {
+                } else {
                     return -o1.getName().compareTo(o2.getName());
                 }
             }
         });
         ArrayList<String> actorsResult = new ArrayList<>();
 
-        for(ActorInputData currentActor : allActors) {
+        for (ActorInputData currentActor : allActors) {
             int checker = 0;
             int compare = currentCommand.getFilters().get(2).size();
             int correct = currentCommand.getFilters().get(2).size();
-            for(int i = 0; i < currentCommand.getFilters().get(2).size(); ++i) {
+            for (int i = 0; i < currentCommand.getFilters().get(2).size(); ++i) {
                 String regexPattern = currentCommand.getFilters().get(2).get(i);
                 Pattern pattern = Pattern.compile("\\W(?i)" + regexPattern + "\\W");
                 Matcher matcher = pattern.matcher(currentActor.getCareerDescription());
@@ -44,11 +43,11 @@ public class FilterDescription extends Actors{
                 while (matcher.find()) {
                     found = true;
                 }
-                if(found) {
+                if (found) {
                     checker++;
                 }
             }
-            if(checker == compare) {
+            if (checker == compare) {
                 actorsResult.add(currentActor.getName());
             }
         }

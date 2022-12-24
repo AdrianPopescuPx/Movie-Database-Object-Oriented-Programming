@@ -44,17 +44,16 @@ public final class Season {
         this.ratings = ratings;
     }
 
-    public void addRating(double newRating) {
+    public void addRating(final double newRating) {
         rating.add(newRating);
     }
     public double calculateSeasonRating() {
-        if(rating.isEmpty()) {
+        if (rating.isEmpty()) {
             return 0;
-        }
-        else {
+        } else {
             int cnt = rating.size();
             double suma = 0;
-            for(int i = 0; i < rating.size(); ++i) {
+            for (int i = 0; i < rating.size(); ++i) {
                 suma += rating.get(i);
             }
             return suma / cnt;
