@@ -17,7 +17,7 @@ This project showcases the implementation of an extensive movie database system 
 
 To build and run the project, follow these steps:
 
-* Clone the repository: `git clone https://github.com/AdrianPopescuPx/Parallel-Processing-Big-Data-Files-With-Map-Reduce-Paradigm--Parallel-And-Distributed-Algorithms`
+* Clone the repository: `git clone https://github.com/AdrianPopescuPx/Movie-Database-Object-Oriented-Programming`
 * Navigate to the project directory
 * Open the project in a Java development environment.
 * Compile and run the main application. 
